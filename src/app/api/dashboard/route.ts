@@ -39,10 +39,10 @@ export async function GET() {
 
     // 2. Counters calculation
     const totalTasks = tasks.length;
-    const completedTasks = tasks.filter((t) => t.status === "DONE").length;
-    const inProgressTasks = tasks.filter((t) => t.status === "IN_PROGRESS").length;
-    const todoTasks = tasks.filter((t) => t.status === "TODO").length;
-    const overdueTasks = tasks.filter((t) => new Date(t.dueDate) < now && t.status !== "DONE").length;
+    const completedTasks = tasks.filter((t: any) => t.status === "DONE").length;
+    const inProgressTasks = tasks.filter((t: any) => t.status === "IN_PROGRESS").length;
+    const todoTasks = tasks.filter((t: any) => t.status === "TODO").length;
+    const overdueTasks = tasks.filter((t: any) => new Date(t.dueDate) < now && t.status !== "DONE").length;
 
     // 3. Status distribution
     const tasksByStatus = {
@@ -53,10 +53,10 @@ export async function GET() {
 
     // 4. Priority distribution
     const tasksByPriority = {
-      LOW: tasks.filter((t) => t.priority === "LOW").length,
-      MEDIUM: tasks.filter((t) => t.priority === "MEDIUM").length,
-      HIGH: tasks.filter((t) => t.priority === "HIGH").length,
-      URGENT: tasks.filter((t) => t.priority === "URGENT").length,
+      LOW: tasks.filter((t: any) => t.priority === "LOW").length,
+      MEDIUM: tasks.filter((t: any) => t.priority === "MEDIUM").length,
+      HIGH: tasks.filter((t: any) => t.priority === "HIGH").length,
+      URGENT: tasks.filter((t: any) => t.priority === "URGENT").length,
     };
 
     // 5. Tasks by Project distribution
@@ -67,11 +67,11 @@ export async function GET() {
       where: { workspaceId: user.workspaceId },
     });
     
-    allProjects.forEach((p) => {
+    allProjects.forEach((p: any) => {
       projectsMap[p.id] = { id: p.id, name: p.name, taskCount: 0, completedCount: 0 };
     });
 
-    tasks.forEach((t) => {
+    tasks.forEach((t: any) => {
       if (projectsMap[t.projectId]) {
         projectsMap[t.projectId].taskCount++;
         if (t.status === "DONE") {
@@ -90,11 +90,11 @@ export async function GET() {
       select: { id: true, name: true },
     });
 
-    allUsers.forEach((u) => {
+    allUsers.forEach((u: any) => {
       usersMap[u.id] = { id: u.id, name: u.name, taskCount: 0, completedCount: 0 };
     });
 
-    tasks.forEach((t) => {
+    tasks.forEach((t: any) => {
       if (t.assigneeId && usersMap[t.assigneeId]) {
         usersMap[t.assigneeId].taskCount++;
         if (t.status === "DONE") {
