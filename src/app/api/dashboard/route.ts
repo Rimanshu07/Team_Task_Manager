@@ -68,8 +68,10 @@ export async function GET() {
     const allProjects = await db.project.findMany({
       where: { workspaceId: user.workspaceId },
     });
+
+    type ProjectType = (typeof allProjects)[number];
     
-    allProjects.forEach((p) => {
+    allProjects.forEach((p: ProjectType) => {
       projectsMap[p.id] = { id: p.id, name: p.name, taskCount: 0, completedCount: 0 };
     });
 
@@ -92,7 +94,9 @@ export async function GET() {
       select: { id: true, name: true },
     });
 
-    allUsers.forEach((u) => {
+    type UserType = (typeof allUsers)[number];
+
+    allUsers.forEach((u: UserType) => {
       usersMap[u.id] = { id: u.id, name: u.name, taskCount: 0, completedCount: 0 };
     });
 
