@@ -132,6 +132,8 @@ export async function GET() {
       take: 10,
     });
 
+    type LogWithRelations = (typeof recentLogs)[number];
+
     return NextResponse.json({
       success: true,
       stats: {
@@ -148,7 +150,7 @@ export async function GET() {
         tasksByProject,
         tasksByUser,
       },
-      recentLogs: recentLogs.map((log) => ({
+      recentLogs: recentLogs.map((log: LogWithRelations) => ({
         id: log.id,
         action: log.action,
         details: log.details,
